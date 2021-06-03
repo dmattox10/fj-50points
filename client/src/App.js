@@ -1,13 +1,11 @@
 import { Container, Jumbotron } from 'reactstrap'
-import { Switch, Route, Link } from 'react-router-dom'
+import { Switch, Route, useHistory } from 'react-router-dom'
 
 import { useWindowSize } from './hooks/useWindowSize'
 
 import Footer from './components/Footer'
 import Play from './components/Play'
 import Settings from './components/Settings'
-import Setup from './components/Setup'
-import User from './components/User'
 
 function App() {
 
@@ -15,6 +13,7 @@ function App() {
   const styles = {
     height: size.height
   }
+  const history = useHistory()
   return (
     <div className="App" style={styles}>
       <Container>
@@ -22,17 +21,11 @@ function App() {
       </Container>
       <Footer />
       <Switch>
-        <Route path='/play'>
-          <Play />
-        </Route>
         <Route path='/settings'>
           <Settings />
         </Route>
-        <Route path='/user'>
-          <User />
-        </Route>
         <Route path='/'>
-          <Setup />
+          <Play />
         </Route>
       </Switch>
     </div>

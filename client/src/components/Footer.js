@@ -1,4 +1,7 @@
 import { Container, Navbar, Nav, NavItem, NavLink, NavbarText, Row, Col } from 'reactstrap'
+import { Icon, InlineIcon } from '@iconify/react'
+import cogsIcon from '@iconify/icons-fa-solid/cogs'
+import gamepadIcon from '@iconify/icons-fa-solid/gamepad'
 
 const Footer = props => {
     return (
@@ -9,12 +12,12 @@ const Footer = props => {
               <Row>
                 <Col>
                   <NavItem>
-                    <NavLink href='/play/'>Play</NavLink>
+                    <NavLink href='/play/'><InlineIcon icon={gamepadIcon} color='#e83283' width='50' height='50' /></NavLink>
                   </NavItem>
                 </Col>
                 <Col>
                   <NavItem>
-                    <NavLink href='/settings/'>Settings</NavLink>
+                    <NavLink href='/settings/'><InlineIcon icon={cogsIcon} color='#3a8fd9' width='50' heeight='50' /></NavLink>
                   </NavItem>
                 </Col>
               </Row>
