@@ -1,0 +1,6 @@
+{
+	"appId": "com.danielmattox.fj",
+	"appName": "fj",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}
