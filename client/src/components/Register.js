@@ -10,7 +10,7 @@ let mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9])
 
 const Register = props => {
 
-    const { modal, toggle, formError } = props
+    const { toggle, formError, doRegister } = props
 
     const [passwordMessage, setPasswordMessage] = useState(null)
 
@@ -61,6 +61,7 @@ const Register = props => {
         }),
         onSubmit: values => {
             // do something!
+            doRegister(values)
             toggle()
         }
     })

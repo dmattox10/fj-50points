@@ -7,6 +7,7 @@ import TabbedView from './TabbedView'
 
 const Settings = props => {
 
+    const { formError, doLogin, doRegister } = props
     const [modal, setModal] = useState(false)
 
     const toggle = () => {
@@ -116,7 +117,7 @@ const Settings = props => {
                     </Row>
                 </div>
             </CardBody>
-            <TabbedView toggle={toggle} modal={modal} />
+            <TabbedView toggle={toggle} modal={modal} formError={formError} doLogin={doLogin} doRegister={doRegister} />
         </Card>
     )
 }

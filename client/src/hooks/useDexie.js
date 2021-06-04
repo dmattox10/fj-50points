@@ -15,11 +15,15 @@ export const useDexie = () => {
     const [players, updatePlayers] = useState({})
     const [group, updateGroup] = useState({})
     const [configured, setConfigured] = useState(false)
+    const [formError, setFormError] = useState(null)
+    const [gameError, setGameError] = useState(null)
 
+    const groupInfo = useLiveQuery(() => db.group.toArray(), [])
+    const allPlayers = useLiveQuery(() => db.players.toArray(), [])
+    
     useEffect(() => {
 
-        const groupInfo = useLiveQuery(() => db.group.toArray(), [])
-        const allPlayers = useLiveQuery(() => db.players.toArray(), [])
+        
         if (groupInfo === undefined || !allPlayers) {
 
         } else {
@@ -39,5 +43,13 @@ export const useDexie = () => {
 
     }, [players, group])
 
-    return [configured]
+    const doLogin = values => {
+
+    }
+
+    const doRegister = values => {
+
+    }
+
+    return [configured, players, group, doLogin, doRegister, formError, gameError]
 }

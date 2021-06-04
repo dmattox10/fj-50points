@@ -10,7 +10,7 @@ let mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9])
 
 const Login = props => {
 
-    const { modal, toggle, formError } = props
+    const { toggle, formError, doLogin } = props
 
     const formik = useFormik({
         initialValues: {
@@ -28,7 +28,7 @@ const Login = props => {
             accept: Yup.bool().oneOf([true], 'Accepting Terms & Conditions is required')
         }),
         onSubmit: values => {
-            // do something!
+            doLogin(values)
             toggle()
         }
     })

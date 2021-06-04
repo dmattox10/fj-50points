@@ -8,7 +8,7 @@ import Terms from './Terms'
 
 const TabbedView = props => {
     
-    const { modal, toggle } = props
+    const { modal, toggle, doLogin, doRegister, formError } = props
 
     const [activeTab, setActiveTab] = useState('1')
 
@@ -50,10 +50,10 @@ const TabbedView = props => {
                     </Nav>
                     <TabContent activeTab={activeTab}>
                         <TabPane tabId='1'>
-                            <Login toggle={toggle} />
+                            <Login toggle={toggle} doLogin={doLogin} formError={formError} />
                         </TabPane>
                         <TabPane tabId='2'>
-                            <Register toggle={toggle} />
+                            <Register toggle={toggle} doRegister={doRegister} formError={formError} />
                         </TabPane>
                         <TabPane tabId='3'>
                             <Terms />
