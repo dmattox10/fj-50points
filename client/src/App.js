@@ -22,7 +22,11 @@ function App() {
       <Footer />
       <Switch>
         <Route path='/settings'>
-          <Settings />
+          <div className='spacer'>
+          <Container>
+            <Settings />
+          </Container>
+          </div>
         </Route>
         <Route path='/'>
           <Play />

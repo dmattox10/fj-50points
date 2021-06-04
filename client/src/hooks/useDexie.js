@@ -1,11 +1,12 @@
 import Dexie from 'dexie'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useEffect, useState } from 'react'
+import { nanoid } from 'nanoid'
 
 const db = new Dexie('fj')
 db.version(1).stores({
     players: `++id, name, score, uid`,
-    group: 'uid, game, email, updatedAt, online'
+    group: 'uid, game, multiplier, email, updatedAt, online'
 })
 
 // TODO Heartbeat for connectivity and sync decisions?

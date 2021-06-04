@@ -1,10 +1,10 @@
-import { Container, Navbar, Nav, NavItem, NavLink, NavbarText, Row, Col } from 'reactstrap'
-import { Icon, InlineIcon } from '@iconify/react'
+import { Container, Navbar, Nav, NavItem, NavLink, Row, Col } from 'reactstrap'
+import { InlineIcon } from '@iconify/react'
 import cogsIcon from '@iconify/icons-fa-solid/cogs'
 import gamepadIcon from '@iconify/icons-fa-solid/gamepad'
 
 const Footer = props => {
-  
+
     return (
         <div className='fixed-bottom'>
           <Navbar color='dark' dark>
