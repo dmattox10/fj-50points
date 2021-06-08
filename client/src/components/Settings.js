@@ -1,13 +1,14 @@
-import { Card, CardBody, CardTitle, CardSubtitle, CardText, CardLink, Container, Row, Col, Form, FormGroup, Label, Input, Button, Modal, ModalHeader, ModalBody, CardHeader } from 'reactstrap'
+import { Card, CardBody, Row, Form, FormGroup, Label, Input, Button, CardHeader } from 'reactstrap'
 import { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
+import Player from './Player'
 import TabbedView from './TabbedView'
 
 const Settings = props => {
 
-    const { formError, doLogin, doRegister } = props
+    const { formError, doLogin, doRegister, isLoading, players, group, addPlayer, removePlayer } = props
     const [modal, setModal] = useState(false)
 
     const toggle = () => {
@@ -16,18 +17,10 @@ const Settings = props => {
 
     const formik = useFormik({
         initialValues: {
-            game: 'FJ',
-            multiplier: 50,
             playerName: '',
             startingScore: 0,
         },
         validationSchema: Yup.object({
-            game: Yup.string()
-            .required('A game name is required!'),
-            multiplier: Yup.number()
-            .required('Please enter points per achievement.')
-            .integer('No decimals please.')
-            .positive('Must not be a negative number or 0!'),
             playerName: Yup.string()
             .required('Please enter a name for this player.'),
             startingScore: Yup.number()
@@ -40,41 +33,13 @@ const Settings = props => {
             
         }
     })
+
     return (
         <Card color='secondary'>
             <CardHeader>Settings</CardHeader>
             <CardBody>
                 <Form onSubmit={formik.handleSubmit}>
-                    <Row>
-                        <FormGroup>
-                            <Label for='game'>Game Name</Label>
-                            <Input
-                                id='game'
-                                name='game'
-                                type='text'
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.game}
-                                className={ !formik.errors.game ? 'form-control is-valid' : 'form-control is-invalid' }
-                            />
-                            { formik.errors.game ? <span className='invalid-feedback'>{ formik.errors.game }</span> : <span>&nbsp;</span>}
-                        </FormGroup>
-                    </Row>
-                    <Row>
-                        <FormGroup>
-                            <Label for='multiplier'>Score Multiplier</Label>
-                            <Input
-                                id='multiplier'
-                                name='multiplier'
-                                type='text'
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.multiplier}
-                                className={ !formik.errors.multiplier ? 'form-control is-valid' : 'form-control is-invalid'}
-                            />
-                            { formik.errors.multiplier ? <span className='invalid-feedback'>{ formik.errors.multiplier }</span> : <span>&nbsp;</span>}
-                        </FormGroup>
-                    </Row>
+                    { players ? players.map(player => <Player player={ player } removePlayer={ removePlayer } />) : null }
                     <Row>
                         <FormGroup>
                             <Label for='playerName'>Player Name</Label>

@@ -1,8 +1,131 @@
+import { Card, CardBody, CardTitle, CardSubtitle, CardText, CardLink, Container, Row, Col, Form, FormGroup, Label, Input, Button, Modal, ModalHeader, ModalBody, CardHeader } from 'reactstrap'
+import { useState } from 'react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+
+import Settings from './Settings'
+import TabbedView from './TabbedView'
+
 const Setup = props => {
+
+    const { formError, doLogin, doRegister, isLoading, configured, players, group, removePlayer, settings, addPlayer } = props
+    const [modal, setModal] = useState(false)
+
+    const toggle = () => {
+        setModal(prevModal => !prevModal)
+    }
+
+    const formik = useFormik({
+        initialValues: {
+            game: 'FJ',
+            multiplier: 50,
+            playerName: '',
+            startingScore: 0,
+        },
+        validationSchema: Yup.object({
+            game: Yup.string()
+            .required('A game name is required!'),
+            multiplier: Yup.number()
+            .required('Please enter points per achievement.')
+            .integer('No decimals please.')
+            .positive('Must not be a negative number or 0!'),
+            playerName: Yup.string()
+            .required('Please enter a name for this player.'),
+            startingScore: Yup.number()
+            .required('Please enter a starting score!')
+            .integer('No decimals please.')
+            .moreThan(-1, 'Please enter 0 or greater.')
+        }),
+        onSubmit: values => {
+            // do something!
+            
+        }
+    })
+
+    const firstSetup = (
+        <Card color='secondary'>
+            <CardHeader>First Time Setup</CardHeader>
+            <CardBody>
+                <Form onSubmit={formik.handleSubmit}>
+                    <Row>
+                        <FormGroup>
+                            <Label for='game'>Game Name</Label>
+                            <Input
+                                id='game'
+                                name='game'
+                                type='text'
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.game}
+                                className={ !formik.errors.game ? 'form-control is-valid' : 'form-control is-invalid' }
+                            />
+                            { formik.errors.game ? <span className='invalid-feedback'>{ formik.errors.game }</span> : <span>&nbsp;</span>}
+                        </FormGroup>
+                    </Row>
+                    <Row>
+                        <FormGroup>
+                            <Label for='multiplier'>Score Multiplier</Label>
+                            <Input
+                                id='multiplier'
+                                name='multiplier'
+                                type='text'
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.multiplier}
+                                className={ !formik.errors.multiplier ? 'form-control is-valid' : 'form-control is-invalid'}
+                            />
+                            { formik.errors.multiplier ? <span className='invalid-feedback'>{ formik.errors.multiplier }</span> : <span>&nbsp;</span>}
+                        </FormGroup>
+                    </Row>
+                    <Row>
+                        <FormGroup>
+                            <Label for='playerName'>Player Name</Label>
+                            <Input
+                                id='playerName'
+                                name='playerName'
+                                type='text'
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.playerName}
+                                className={formik.touched.playerName && !formik.errors.playerName ? 'form-control is-valid' : 'form-control is-invalid'}
+                            />
+                            { formik.touched.playerName && formik.errors.playerName ? <span className='invalid-feedback'>{ formik.errors.playerName }</span> : <span>&nbsp;</span>}
+                        </FormGroup>
+                    </Row>
+                    <Row>
+                        <FormGroup>
+                            <Label for='startingScore'>This player's starting score</Label>
+                            <Input
+                                id='startingScore'
+                                name='startingScore'
+                                type='text'
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.startingScore}
+                                className={ !formik.errors.startingScore ? 'form-control is-valid' : 'form-control is-invalid'}
+                            />
+                            { formik.errors.startingScore ? <span className='invalid-feedback'>{ formik.errors.startingScore }</span> : <span>&nbsp;</span>}
+                        </FormGroup>
+                    </Row>
+                    <div className='spacer'>
+                        <Row>
+                            <Button type='submit' style={{width: '100%'}} className='btn-success'>Submit</Button>
+                        </Row>
+                    </div>
+                </Form>
+                <div className='spacer'>
+                    <Row>
+                        <Button style={{width: '100%'}} className='btn-dark' onClick={() => toggle()}>Sign in to play online!</Button>
+                    </Row>
+                </div>
+            </CardBody>
+            <TabbedView toggle={toggle} modal={modal} formError={formError} doLogin={doLogin} doRegister={doRegister} />
+        </Card>
+    )
 
     return (
         <div>
-            Setup
+            {configured === true ? <Settings formError={formError} doLogin={doLogin} doRegister={doRegister} isLoading={isLoading} players={players} group={group} /> : firstSetup }
         </div>
     )
 }

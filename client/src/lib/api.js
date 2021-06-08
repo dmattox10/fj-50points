@@ -1,0 +1,68 @@
+import axios from 'axios'
+import { ref } from 'yup'
+
+
+const devUrl = 'http://localhost:4444/api/v1/play'
+const baseUrl = 'https://fj.hyperspacemg.com/v1/play'
+const authUrl = 'https://auth.hyperspacemg.com/v1/auth'
+
+// Add token to req
+axios.interceptors.request.use(
+    (config) => {
+        const accessToken = localStorage.getItem('accessToken')
+        if (accessToken) {
+            config.headers['x-auth-token'] = accessToken
+        }
+        // TODO ELSE here to make sure we log in before we ever try to make a request!
+        return config
+    },
+    (error) => {
+        Promise.reject(error)
+    }
+)
+
+// Refresh if token is expired
+axios.interceptors.response.use(
+    (response) => {
+        return response
+    },
+    (error) => {
+        const originalRequest = error.config
+        let refreshToken = localStorage.getItem('refreshToken')
+        if (refreshToken && error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true
+            return axios.post(`${authUrl}/refreshToken`, { refreshToken })
+                .then(res => {
+                    if (res.status === 200) {
+                        localStorage.setItem('accessToken', res.data.accessToken)
+                        return axios(originalRequest)
+                    }
+                    // Do I need to do anything else here?
+                })
+        }
+        return Promise.reject(error)
+    }
+)
+
+const api = {
+    register: values => {
+        return axios.post(`${authUrl}/register`, values)
+    },
+    login: values => {
+        return axios.post(`${authUrl}/login`, values)
+    },
+    refreshToken: values => {
+        return axios.post(`${authUrl}/refresh`, values)
+    },
+    logout: values => {
+        return axios.delete(`${authUrl}/logout`, values)
+    },
+    getProtected: fullRoute => { // TODO change to baseUrl in prod
+        return axios.get(`${devUrl}/${fullRoute}`)
+    },
+    postProtected: (route, values) => { // TODO change to baseUrl in prod
+        return axios.post(`${devUrl}/${route}`, values)
+    }
+}
+
+export default api

@@ -6,7 +6,7 @@ import { useDexie } from './hooks/useDexie'
 
 import Footer from './components/Footer'
 import Play from './components/Play'
-import Settings from './components/Settings'
+import Setup from './components/Setup'
 
 function App() {
 
@@ -16,7 +16,7 @@ function App() {
   }
 
   const history = useHistory()
-  const [players, group, doLogin, doRegister, formError, gameError] = useDexie()
+  const [configured, players, group, doLogin, doRegister, formError, gameError, isLoading, removePlayer, settings, addPlayer] = useDexie()
 
   return (
     <div className="App" style={styles}>
@@ -28,7 +28,7 @@ function App() {
         <Route path='/settings'>
           <div className='spacer'>
             <Container>
-              <Settings players={players} group={group} doLogin={doLogin} doRegister={doRegister} formError={formError} />
+              <Setup players={players} group={group} doLogin={doLogin} doRegister={doRegister} formError={formError} isLoading={isLoading} configured={configured} removePlayer={removePlayer} />
             </Container>
           </div>
         </Route>
