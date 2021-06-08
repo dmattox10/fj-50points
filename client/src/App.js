@@ -16,24 +16,23 @@ function App() {
   }
 
   const history = useHistory()
-  const [configured, players, group, doLogin, doRegister, formError, gameError, isLoading, removePlayer, settings, addPlayer] = useDexie()
+  const [configured, players, group, doLogin, doRegister, formError, gameError, isLoading, removePlayer, editGroup, addPlayer] = useDexie()
 
   return (
     <div className="App" style={styles}>
-      <Container>
-
-      </Container>
       <Footer />
       <Switch>
         <Route path='/settings'>
           <div className='spacer'>
             <Container>
-              <Setup players={players} group={group} doLogin={doLogin} doRegister={doRegister} formError={formError} isLoading={isLoading} configured={configured} removePlayer={removePlayer} />
+              <Setup players={players} group={group} doLogin={doLogin} doRegister={doRegister} formError={formError} isLoading={isLoading} configured={configured} removePlayer={removePlayer} addPlayer={addPlayer} editGroup={editGroup} />
             </Container>
           </div>
         </Route>
         <Route path='/'>
-          <Play players={players} group={group} gameError={gameError} />
+          <Container>
+            <Play players={players} group={group} gameError={gameError} />
+          </Container>
         </Route>
       </Switch>
     </div>

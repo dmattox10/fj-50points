@@ -15,16 +15,36 @@ const Setup = props => {
         setModal(prevModal => !prevModal)
     }
 
+    const gameRegex = new RegExp('[^A-Za-z0-9]+', 'g')
+
+    const generateId = codeLength => {
+        let result = ''
+        const characters = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789'
+        for ( let i = 0; i < codeLength; i++ ) {
+           result += characters.charAt(Math.floor(Math.random() * characters.length))
+        }
+        return result
+    }
+
+    Yup.addMethod(Yup.string, 'noSpaces', function (errorMessage) {
+        return this.test('test-no-spaces', errorMessage, function (value) {
+            const { path, createError } = this
+            if (gameRegex.test(value)) return createError({ path, errorMessage })
+            return true
+        })
+    })
+
     const formik = useFormik({
         initialValues: {
             game: 'FJ',
+            gameId: generateId(8),
             multiplier: 50,
             playerName: '',
             startingScore: 0,
         },
         validationSchema: Yup.object({
             game: Yup.string()
-            .required('A game name is required!'),
+            .required('A game name is required!').noSpaces('Must only be letters and/or numbers'),
             multiplier: Yup.number()
             .required('Please enter points per achievement.')
             .integer('No decimals please.')
@@ -37,6 +57,9 @@ const Setup = props => {
             .moreThan(-1, 'Please enter 0 or greater.')
         }),
         onSubmit: values => {
+            if (values.game === 'FJ') {
+                values.gameId = values.game
+            }
             // do something!
             
         }

@@ -8,7 +8,7 @@ import api from '../lib/api'
 const db = new Dexie('fj')
 db.version(1).stores({
     players: `++id, name, score, uid`,
-    group: 'uid, game, multiplier, email, updatedAt, online, location'
+    group: 'uid, game, gameId, multiplier, username, updatedAt, online, location'
 })
 
 // TODO Heartbeat for connectivity and sync decisions?
@@ -43,12 +43,13 @@ export const useDexie = () => {
             const groupObj = {
                 uid: groupInfo[0].uid,
                 game: groupInfo[0].game,
-                email: groupInfo[0].email,
+                gameId: groupInfo[0].gameId,
+                username: groupInfo[0].username,
                 updatedAt: groupInfo[0].updatedAt,
                 online: groupInfo[0].online,
-                location: groupInfo[0].location
+                location: groupInfo[0].location,
+                multiplier: groupInfo[0].multiplier,
             }
-            console.log(groupInfo[0].game)
             updateGroup({
                 ...group,
                 ...groupObj
@@ -56,14 +57,14 @@ export const useDexie = () => {
         }
 
         if (group && group.online) {
-            // TODO sync here
+            // TODO sync here, heartbeat?
         }
 
     }, [players, group])
 
     
 
-    const settings = values => {
+    const editGroup = values => {
 
     }
 
@@ -98,17 +99,18 @@ export const useDexie = () => {
         let res
         try {
             res = await api.register(values)
+            setFormError(null)
         } catch (error) {
             console.error(error)
             setFormError(error)
             setIsLoading(prevIsLoading => !prevIsLoading)
         }
-        let { accessToken, refreshToken } = res.data
+        let { accessToken, refreshToken, username, online, location, gameId } = res.data
         localStorage.setItem('accessToken', accessToken)
         localStorage.setItem('refreshToken', refreshToken)
-        setFormError(null)
+        
         setIsLoading(prevIsLoading => !prevIsLoading)
     }
 
-    return [configured, players, group, doLogin, doRegister, formError, gameError, isLoading, removePlayer, settings, addPlayer]
+    return [configured, players, group, doLogin, doRegister, formError, gameError, isLoading, removePlayer, editGroup, addPlayer]
 }

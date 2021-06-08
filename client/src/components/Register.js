@@ -5,8 +5,9 @@ import * as Yup from 'yup'
 import validator from 'validator'
 
 // if validator.isEmail(username)
-let strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})")
-let mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})")
+const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})")
+const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})")
+const gameRegex = new RegExp('[^A-Za-z0-9]+', 'g')
 
 const Register = props => {
 
@@ -17,7 +18,7 @@ const Register = props => {
     Yup.addMethod(Yup.string, 'isValidEmail', function (errorMessage) {
         return this.test('test-is-email', errorMessage, function (value) {
             const { path, createError } = this
-            if (!validator.isEmail(value)) return createError({ path, errorMessage })
+            if (!value || !validator.isEmail(value)) return createError({ path, errorMessage })
             return true
         })
     })
@@ -42,6 +43,14 @@ const Register = props => {
         })
     })
 
+    Yup.addMethod(Yup.string, 'noSpaces', function (errorMessage) {
+        return this.test('test-no-spaces', errorMessage, function (value) {
+            const { path, createError } = this
+            if (gameRegex.test(value)) return createError({ path, errorMessage })
+            return true
+        })
+    })
+
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -49,15 +58,20 @@ const Register = props => {
             accept: false,
             online: false,
             location: false,
+            gameId: 'FJ'
         },
         validationSchema: Yup.object({
             username: Yup.string()
             .required('An email address is required!')
             .isValidEmail('Not a valid email address!'),
             password: Yup.string()
-            .required('Please enter a password')
+            .required('Please enter a password.')
             .isGoodPassword('Security is serious, choose a better password.'),
-            accept: Yup.bool().oneOf([true], 'Accepting Terms & Conditions is required')
+            accept: Yup.bool()
+            .oneOf([true], 'Accepting Terms & Conditions is required!'),
+            gameId: Yup.string()
+            .required('A common game ID is required to play with other groups.')
+            .noSpaces('Must only contain letters and numbers')
         }),
         onSubmit: values => {
             // do something!
@@ -65,6 +79,25 @@ const Register = props => {
             toggle()
         }
     })
+
+    const gameId = (
+        <Row>
+            <FormGroup>
+                <Label for='gameId'>Group Game ID&nbsp;<span className='required'>*</span></Label>
+                <Input
+                    id='gameId'
+                    name='gameId'
+                    type='gameId'
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.gameId}
+                    className={ !formik.errors.gameId ? 'form-control is-valid' : 'form-control is-invalid' }
+                />
+                { formik.errors.gameId ? <span className='invalid-feedback'>{ formik.errors.password }</span> : <span>&nbsp;</span>}
+            </FormGroup>
+        </Row>
+    )
+
     return (
         <div className='spacer'>
             <Form onSubmit={formik.handleSubmit}>
@@ -121,9 +154,10 @@ const Register = props => {
                             onBlur={formik.handleBlur}
                             checked={formik.values.online}
                         />
-                        <label class='form-check-label' for='online'>Play FJ online with other groups?</label>
+                        <label class='form-check-label' for='online'>Play online with other groups?</label>
                     </div>
                 </Row>
+                { formik.values.online ? gameId : null }
                 <Row>
                     <div className='form-check form-switch'>
                         <input className='form-check-input'
