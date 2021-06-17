@@ -82,14 +82,15 @@ export const useDexie = () => {
         let res
         try {
             res = await api.login(values)
+            let { accessToken, refreshToken, username, online, location, gameId } = res.data
+            localStorage.setItem('accessToken', accessToken)
+            localStorage.setItem('refreshToken', refreshToken)
         } catch (error) {
             console.error(error)
             setFormError(error)
             setIsLoading(prevIsLoading => !prevIsLoading)
         }
-        let { accessToken, refreshToken } = res.data
-        localStorage.setItem('accessToken', accessToken)
-        localStorage.setItem('refreshToken', refreshToken)
+        // TODO Error handling here
         setFormError(null)
         setIsLoading(prevIsLoading => !prevIsLoading)
     }
@@ -100,14 +101,16 @@ export const useDexie = () => {
         try {
             res = await api.register(values)
             setFormError(null)
+            let { accessToken, refreshToken } = res.data
+            localStorage.setItem('accessToken', accessToken)
+            localStorage.setItem('refreshToken', refreshToken)
         } catch (error) {
             console.error(error)
             setFormError(error)
             setIsLoading(prevIsLoading => !prevIsLoading)
         }
-        let { accessToken, refreshToken, username, online, location, gameId } = res.data
-        localStorage.setItem('accessToken', accessToken)
-        localStorage.setItem('refreshToken', refreshToken)
+        // TODO Error handling here
+        
         
         setIsLoading(prevIsLoading => !prevIsLoading)
     }
