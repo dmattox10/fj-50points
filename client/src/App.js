@@ -16,7 +16,7 @@ function App() {
   }
 
   const history = useHistory()
-  const [configured, players, group, doLogin, doRegister, formError, gameError, isLoading, removePlayer, editGroup, addPlayer] = useDexie()
+  const [configured, players, group, doLogin, doRegister, formError, gameError, isLoading, removePlayer, editGroup, addPlayer, setup] = useDexie()
 
   return (
     <div className="App" style={styles}>

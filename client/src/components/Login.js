@@ -16,16 +16,12 @@ const Login = props => {
         initialValues: {
             username: '',
             password: '',
-            accept: false,
-            online: false,
-            location: false,
         },
         validationSchema: Yup.object({
             username: Yup.string()
             .required('An email address is required!'),
             password: Yup.string()
             .required('Please enter a password'),
-            accept: Yup.bool().oneOf([true], 'Accepting Terms & Conditions is required')
         }),
         onSubmit: values => {
             doLogin(values)

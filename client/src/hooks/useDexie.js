@@ -7,48 +7,50 @@ import api from '../lib/api'
 
 const db = new Dexie('fj')
 db.version(1).stores({
-    players: `++id, name, score, uid`,
-    group: 'uid, game, gameId, multiplier, username, updatedAt, online, location'
+    // players: `++id, name, score, uid`,
+    group: 'uid, game, gameId, multiplier, username, updatedAt, online, location, players'
 })
 
 // TODO Heartbeat for connectivity and sync decisions?
 export const useDexie = () => {
 
-    const checkLocalStorage = () => {
-        let config = false
-        if (!localStorage.getItem('config')) {
-            localStorage.setItem('config', config)
+    const checkLocalStorage = area => {
+        let status = false
+        if (!localStorage.getItem(area)) {
+            localStorage.setItem(area, status)
         } else {
-            config = localStorage.getItem(config)
+            status = localStorage.getItem(area)
         }
-        return config
+        return status
     }
 
     const [players, updatePlayers] = useState(null)
     const [group, updateGroup] = useState(null)
-    const [configured, setConfigured] = useState(checkLocalStorage())
+    const [configured, setConfigured] = useState(checkLocalStorage('config'))
     const [formError, setFormError] = useState(null)
     const [gameError, setGameError] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
+    const [doneSetup, setDoneSetup] = useState(checkLocalStorage('setup')) // need a method to check it
 
     const history = useHistory()
 
-    const groupInfo = useLiveQuery(() => db.group.toArray(), [])
-    const allPlayers = useLiveQuery(() => db.players.toArray(), [])
+    const groupInfo = useLiveQuery(() => db.group.toArray(), []) // this isn't going to be populated over again?
+    // const allPlayers = useLiveQuery(() => db.players.toArray(), [])
 
     useEffect(() => {
         if (!configured) {
             history.push('/settings')
-        } else {
+        } else if (!configured && doneSetup) {
             const groupObj = {
-                uid: groupInfo[0].uid,
+                uid: groupInfo[0].uid || false,
                 game: groupInfo[0].game,
                 gameId: groupInfo[0].gameId,
-                username: groupInfo[0].username,
-                updatedAt: groupInfo[0].updatedAt,
-                online: groupInfo[0].online,
-                location: groupInfo[0].location,
+                username: groupInfo[0].username || false,
+                updatedAt: groupInfo[0].updatedAt || false,
+                online: groupInfo[0].online || false,
+                location: groupInfo[0].location || false,
                 multiplier: groupInfo[0].multiplier,
+                players: groupInfo[0].players
             }
             updateGroup({
                 ...group,
@@ -56,7 +58,7 @@ export const useDexie = () => {
             })
         }
 
-        if (group && group.online) {
+        if (group && group.online) { // should this be setTimeout, useInterval?
             // TODO sync here, heartbeat?
         }
 
@@ -65,7 +67,15 @@ export const useDexie = () => {
     
 
     const editGroup = values => {
+        
+    }
 
+    const setup = values => {
+        const { game, gameId, multiplier, playerName, startingScore } = values
+        let config = true
+        localStorage.setItem('config', config)
+        setConfigured(config)
+        db.group.put({})
     }
 
     const addPlayer = values => {
@@ -115,5 +125,9 @@ export const useDexie = () => {
         setIsLoading(prevIsLoading => !prevIsLoading)
     }
 
-    return [configured, players, group, doLogin, doRegister, formError, gameError, isLoading, removePlayer, editGroup, addPlayer]
+    const sync = () => {
+
+    }
+
+    return [configured, players, group, doLogin, doRegister, formError, gameError, isLoading, removePlayer, editGroup, addPlayer, setup]
 }
