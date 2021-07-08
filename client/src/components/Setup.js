@@ -37,7 +37,7 @@ const Setup = props => {
     const formik = useFormik({
         initialValues: {
             game: 'FJ',
-            gameId: generateId(8),
+            gameId: generateId(8),  
             multiplier: 50,
             playerName: '',
             startingScore: 0,

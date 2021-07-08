@@ -14,14 +14,14 @@ db.version(1).stores({
 // TODO Heartbeat for connectivity and sync decisions?
 export const useDexie = () => {
 
-    const checkLocalStorage = area => {
-        let status = false
-        if (!localStorage.getItem(area)) {
-            localStorage.setItem(area, status)
+    const checkLocalStorage = () => {
+        let config = false
+        if (!localStorage.getItem('config')) {
+            localStorage.setItem('config', config)
         } else {
-            status = localStorage.getItem(area)
+            config = localStorage.getItem(config)
         }
-        return status
+        return config
     }
 
     const [players, updatePlayers] = useState(null)
@@ -73,7 +73,7 @@ export const useDexie = () => {
         try {
             res = await api.login(values)
             setFormError(null)
-            let { accessToken, refreshToken, username, online, location, gameId } = res.data
+            const { accessToken, refreshToken, special } = res.data
             localStorage.setItem('accessToken', accessToken)
             localStorage.setItem('refreshToken', refreshToken)
             // TODO Switch API's here!
