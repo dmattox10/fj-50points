@@ -30,32 +30,16 @@ export const useDexie = () => {
     const [formError, setFormError] = useState(null)
     const [gameError, setGameError] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
-    const [doneSetup, setDoneSetup] = useState(checkLocalStorage('setup')) // need a method to check it
 
     const history = useHistory()
 
-    const groupInfo = useLiveQuery(() => db.group.toArray(), []) // this isn't going to be populated over again?
     // const allPlayers = useLiveQuery(() => db.players.toArray(), [])
 
     useEffect(() => {
         if (!configured) {
             history.push('/settings')
-        } else if (!configured && doneSetup) {
-            const groupObj = {
-                uid: groupInfo[0].uid || false,
-                game: groupInfo[0].game,
-                gameId: groupInfo[0].gameId,
-                username: groupInfo[0].username || false,
-                updatedAt: groupInfo[0].updatedAt || false,
-                online: groupInfo[0].online || false,
-                location: groupInfo[0].location || false,
-                multiplier: groupInfo[0].multiplier,
-                players: groupInfo[0].players
-            }
-            updateGroup({
-                ...group,
-                ...groupObj
-            })
+        } else {
+            loadData()
         }
 
         if (group && group.online) { // should this be setTimeout, useInterval?
@@ -67,15 +51,11 @@ export const useDexie = () => {
     
 
     const editGroup = values => {
-        
-    }
-
-    const setup = values => {
         const { game, gameId, multiplier, playerName, startingScore } = values
         let config = true
         localStorage.setItem('config', config)
         setConfigured(config)
-        db.group.put({})
+        // db.group.put({})
     }
 
     const addPlayer = values => {
@@ -92,9 +72,11 @@ export const useDexie = () => {
         let res
         try {
             res = await api.login(values)
+            setFormError(null)
             let { accessToken, refreshToken, username, online, location, gameId } = res.data
             localStorage.setItem('accessToken', accessToken)
             localStorage.setItem('refreshToken', refreshToken)
+            // TODO Switch API's here!
         } catch (error) {
             console.error(error)
             setFormError(error)
@@ -114,6 +96,7 @@ export const useDexie = () => {
             let { accessToken, refreshToken } = res.data
             localStorage.setItem('accessToken', accessToken)
             localStorage.setItem('refreshToken', refreshToken)
+            // TODO Switch API's here!
         } catch (error) {
             console.error(error)
             setFormError(error)
@@ -125,9 +108,13 @@ export const useDexie = () => {
         setIsLoading(prevIsLoading => !prevIsLoading)
     }
 
+    const loadData = async () => {
+        
+    }
+
     const sync = () => {
 
     }
 
-    return [configured, players, group, doLogin, doRegister, formError, gameError, isLoading, removePlayer, editGroup, addPlayer, setup]
+    return [configured, players, group, doLogin, doRegister, formError, gameError, isLoading, removePlayer, editGroup, addPlayer]
 }

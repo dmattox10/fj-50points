@@ -1,11 +1,10 @@
 import axios from 'axios'
-import { ref } from 'yup'
-
 
 const devUrl = 'http://localhost:4444/api/v1/play'
 const baseUrl = 'https://fj.hyperspacemg.com/v1/play'
 const authUrl = 'https://auth.hyperspacemg.com/v1/auth'
 const testUrl = 'https://auth.mattox.space/v1/auth'
+const appName = 'FJ'
 
 // Add token to req
 axios.interceptors.request.use(
@@ -47,7 +46,18 @@ axios.interceptors.response.use(
 
 const api = {
     register: values => {
-        return axios.post(`${testUrl}/register`, values)
+        const { username, password, online, location, gameId } = values
+        const body = {
+            username,
+            password,
+            referrer: appName,
+            special: {
+                online,
+                location,
+                gameId,
+            }
+        }
+        return axios.post(`${testUrl}/register`, body)
     },
     login: values => {
         return axios.post(`${testUrl}/login`, values)
