@@ -18,13 +18,6 @@ function App() {
 
   const [configured, players, group, doLogin, doRegister, formError, gameError, isLoading, removePlayer, editGroup, addPlayer] = useDexie()
 
-  // useEffect(() => {
-  //   if (configured === false) {
-  //     console.log('got here')
-  //     return <Redirect to='/settings' />
-  //   }
-  // })
-
   return (
     <div className="App" style={styles}>
       <Footer />
