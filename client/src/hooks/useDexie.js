@@ -4,7 +4,9 @@ import { useHistory } from 'react-router-dom'
 import { nanoid } from 'nanoid'
 import { useStorageItem } from '@capacitor-community/react-hooks'
 
-import api from '../lib/api'
+import { useApi } from './useApi'
+
+// import api from '../lib/api'
 
 const db = new Dexie('fj')
 db.version(1).stores({
@@ -39,7 +41,7 @@ export const useDexie = () => {
     const history = useHistory()
 
     const checkToken = () => {
-        const [token, setToken]
+
     }
 
     // const allPlayers = useLiveQuery(() => db.players.toArray(), [])
@@ -61,9 +63,9 @@ export const useDexie = () => {
 
     const editGroup = values => {
         const { game, gameId, multiplier, playerName, startingScore } = values
-        let config = true
-        localStorage.setItem('configured', config)
-        setConfigured(config)
+        // let config = true
+        // localStorage.setItem('configured', config)
+        setConfigured(true)
         // db.group.put({})
     }
 
@@ -82,16 +84,20 @@ export const useDexie = () => {
         try {
             res = await api.login(values)
             setFormError(null)
-            const { accessToken, refreshToken, special } = res.data
-            localStorage.setItem('accessToken', accessToken)
-            localStorage.setItem('refreshToken', refreshToken)
+            const special = res.data
+            // localStorage.setItem('accessToken', accessToken)
+            setAuthToken(res.data.accessToken)
+            setRefreshToken(res.data.refreshToken)
+            // localStorage.setItem('refreshToken', refreshToken)
             // TODO Switch API's here!
+            setIsLoggedIn(true)
         } catch (error) {
             console.error(error)
             setFormError(error)
             setIsLoading(prevIsLoading => !prevIsLoading)
         }
         // TODO Error handling here
+        setIsLoggedIn(false)
         setFormError(null)
         setIsLoading(prevIsLoading => !prevIsLoading)
     }
@@ -102,9 +108,12 @@ export const useDexie = () => {
         try {
             res = await api.register(values)
             setFormError(null)
-            let { accessToken, refreshToken } = res.data
-            localStorage.setItem('accessToken', accessToken)
-            localStorage.setItem('refreshToken', refreshToken)
+            // let { accessToken, refreshToken } = res.data
+            // localStorage.setItem('accessToken', accessToken)
+            // localStorage.setItem('refreshToken', refreshToken)
+            setAuthToken(res.data.accessToken)
+            setRefreshToken(res.data.refreshToken)
+            setIsLoggedIn(true)
             // TODO Switch API's here!
         } catch (error) {
             console.error(error)

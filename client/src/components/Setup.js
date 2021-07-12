@@ -21,7 +21,7 @@ const Setup = props => {
         addPlayer, 
         isLoggedIn 
     } = props
-    
+
     const [modal, setModal] = useState(false)
 
     const toggle = () => {
@@ -149,14 +149,18 @@ const Setup = props => {
                         </Row>
                     </div>
                 </Form>
-                <div className='spacer'>
-                    <Row>
-                        <Button style={{width: '100%'}} className='btn-dark' onClick={() => toggle()}>Sign in to play online!</Button>
-                    </Row>
-                </div>
+                { isLoggedIn ? null : LoginButton}
             </CardBody>
             <TabbedView toggle={toggle} modal={modal} formError={formError} doLogin={doLogin} doRegister={doRegister} />
         </Card>
+    )
+
+    const LoginButton = (
+        <div className='spacer'>
+            <Row>
+                <Button style={{width: '100%'}} className='btn-dark' onClick={() => toggle()}>Sign in to play online!</Button>
+            </Row>
+        </div>
     )
 
     return (

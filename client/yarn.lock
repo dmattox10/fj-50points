@@ -1137,6 +1137,13 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@capacitor-community/admob@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@capacitor-community/admob/-/admob-3.1.0.tgz#8e768eb7bbed79677fb42160484cffc9f88eb869"
+  integrity sha512-hD1gcuwqxfu1bFPHv2Ejw1neym8M7KpssUZqo2dwoQT77V+RAr1V5wn8/RrxVbfrRhXjOeFdjK0sWTNp8YcRPg==
+  dependencies:
+    "@capacitor/core" "^3.0.0"
+
 "@capacitor/android@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-3.0.0.tgz#0d8ce965fa19d9f1412a468476525af2b92a151e"
@@ -1171,10 +1178,25 @@
   dependencies:
     tslib "^2.1.0"
 
+"@capacitor/geolocation@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@capacitor/geolocation/-/geolocation-1.0.2.tgz#e75e0262af83ee6fadab95108c1b0c157c98a948"
+  integrity sha512-juHcG8GGxMChXg4AlY3I2f2oKvcnjldz/7u8/0Q36eamNPvy9ombBOhPxmm8ECi8e40lCtRX5/RMIkZvgb5vEQ==
+
 "@capacitor/ios@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-3.0.0.tgz#1fa8c7d23810d6e4a0a07b1504270c5484598213"
   integrity sha512-EvWW86hQqmoY0qFV1LJyZujlgfEgl4iEUJVhCv84mshMyS2bXZu5Ip4yuKtJBDsKmTWyA7rfcAnPMEnUfQ6bkw==
+
+"@capacitor/network@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@capacitor/network/-/network-1.0.2.tgz#2a501ec5cade9a6b182577fb98364f7682326ad0"
+  integrity sha512-VUu/ZG9yHjbIVgeyhuD83SYuPVoeV/FhppvrY/tRrxssuMJM7yRTYldXCdRB9v5B8cMIg5QdKaOGkBgpZalojw==
+
+"@capacitor/storage@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@capacitor/storage/-/storage-1.0.3.tgz#7c69a32001358de9ce95f844a96438e6cd9656a9"
+  integrity sha512-tY1Rb5qVbiCPm1G983jkgvqU28oVe2/BByVC29AJ8efZ4V46NqfXcmj12Ve1KiAo/XIwtp8li/GXcdCT1QnyQg==
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
