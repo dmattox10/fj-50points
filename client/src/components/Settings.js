@@ -8,7 +8,7 @@ import TabbedView from './TabbedView'
 
 const Settings = props => {
 
-    const { formError, doLogin, doRegister, isLoading, players, group, addPlayer, removePlayer } = props
+    const { formError, doLogin, doRegister, isLoading, players, group, addPlayer, removePlayer, isLoggedIn } = props
     const [modal, setModal] = useState(false)
 
     const toggle = () => {
@@ -33,6 +33,14 @@ const Settings = props => {
             
         }
     })
+
+    const LoginButton = (
+        <div className='spacer'>
+            <Row>
+                <Button style={{width: '100%'}} className='btn-dark' onClick={() => toggle()}>Sign in to play online!</Button>
+            </Row>
+        </div>
+    )
 
     return (
         <Card color='secondary'>
@@ -76,11 +84,7 @@ const Settings = props => {
                         </Row>
                     </div>
                 </Form>
-                <div className='spacer'>
-                    <Row>
-                        <Button style={{width: '100%'}} className='btn-dark' onClick={() => toggle()}>Sign in to play online!</Button>
-                    </Row>
-                </div>
+                { isLoggedIn ? null : LoginButton }
             </CardBody>
             <TabbedView toggle={toggle} modal={modal} formError={formError} doLogin={doLogin} doRegister={doRegister} />
         </Card>

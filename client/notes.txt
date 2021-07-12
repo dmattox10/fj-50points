@@ -1,0 +1,28 @@
+2. Using Launch StoryBoard as a splash screen:
+Launch storyboard images: Images are sized based on scale, idiom, and size classes. Supports all devices, and can be used with split-screen/slide-over multitasking.
+The launch image needs to meet the following requirements:
+the image should be square
+the image should be large enough to fit on an iPad Pro 12.9": 2732x2732
+anything important should fit within the center
+Once the single image of 2732x2732 is created, you can include it in your project by adding the following to the outerconfig.xml:
+<splash src="res/screen/ios/Default@2x~universal~anyany.png" />
+Place the image in res/screen/ios path with the name Default@2x~universal~anyany.png
+Then prepare your cordova/ionic project using the command:
+ cordova prepare --nofetch
+Open project in Xcode, go to General → Under App icon and Launch Screen set as below:
+Set Launch image Sources → Don not use asset Catalog
+Set Launch Screen File → CDVLaunchScreen.storyboard
+
+3. Update the Status bar plugin ( cordova-plugin-statusbar)
+The status bar plugin has changed for iphoneX , remove the old plugin and add it again.Since the size of the status bar changed on iphone X older version of the plugin will display incorrectly.
+4. Update cordova ios platform version to cordova-ios@4.5.4
+LaunchScreen storyboard constraints were never updated for ios11/iphoneX. This can cause the splashscreen to jump during startup causing a white patch at bottom initially.
+
+
+https://codeburst.io/making-ionic-cordova-app-compatible-for-iphone-x-c84d62b61aa9
+
+.ios-bottom-safe-area {
+  padding-bottom: var(safe-area-inset-bottom) !important;
+  padding-bottom: env(safe-area-inset-bottom) !important;
+  background-color: var(--ion-color-secondary);  
+}

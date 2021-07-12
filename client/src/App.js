@@ -16,7 +16,7 @@ function App() {
     height: size.height
   }
 
-  const [configured, players, group, doLogin, doRegister, formError, gameError, isLoading, removePlayer, editGroup, addPlayer] = useDexie()
+  const [configured, players, group, doLogin, doRegister, formError, gameError, isLoading, removePlayer, editGroup, addPlayer, isLoggedIn] = useDexie()
 
   return (
     <div className="App" style={styles}>
@@ -25,7 +25,7 @@ function App() {
         <Route path='/settings'>
           <div className='spacer'>
             <Container>
-              <Setup players={players} group={group} doLogin={doLogin} doRegister={doRegister} formError={formError} isLoading={isLoading} configured={configured} removePlayer={removePlayer} addPlayer={addPlayer} editGroup={editGroup} />
+              <Setup players={players} group={group} doLogin={doLogin} doRegister={doRegister} formError={formError} isLoading={isLoading} configured={configured} removePlayer={removePlayer} addPlayer={addPlayer} editGroup={editGroup} isLoggedIn={isLoggedIn} />
             </Container>
           </div>
         </Route>

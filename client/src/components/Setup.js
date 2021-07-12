@@ -8,7 +8,20 @@ import TabbedView from './TabbedView'
 
 const Setup = props => {
 
-    const { formError, doLogin, doRegister, isLoading, configured, players, group, removePlayer, settings, addPlayer } = props
+    const { 
+        formError, 
+        doLogin, 
+        doRegister, 
+        isLoading, 
+        configured, 
+        players, 
+        group, 
+        removePlayer, 
+        settings, 
+        addPlayer, 
+        isLoggedIn 
+    } = props
+    
     const [modal, setModal] = useState(false)
 
     const toggle = () => {
@@ -148,7 +161,7 @@ const Setup = props => {
 
     return (
         <div>
-            {configured === true ? <Settings formError={formError} doLogin={doLogin} doRegister={doRegister} isLoading={isLoading} players={players} group={group} /> : firstSetup }
+            {configured === true ? <Settings formError={formError} doLogin={doLogin} doRegister={doRegister} isLoading={isLoading} players={players} group={group} isLoggedIn={isLoggedIn} /> : firstSetup }
         </div>
     )
 }
