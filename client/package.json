@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@capacitor-community/admob": "^3.1.0",
-    "@capacitor-community/react-hooks": "^0.0.11",
+    "@capacitor-community/react-hooks": "https://github.com/dmattox10/react-hooks.git#capacitor-v3-support",
     "@capacitor/android": "^3.0.0",
     "@capacitor/cli": "^3.0.0",
     "@capacitor/core": "^3.0.0",
@@ -57,5 +57,17 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@capacitor/app": "^1.0.2",
+    "@capacitor/browser": "^1.0.2",
+    "@capacitor/camera": "^1.0.3",
+    "@capacitor/clipboard": "^1.0.2",
+    "@capacitor/device": "^1.0.2",
+    "@capacitor/filesystem": "^1.0.2",
+    "@capacitor/keyboard": "^1.0.2",
+    "@capacitor/screen-reader": "^1.0.2",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0"
   }
 }
