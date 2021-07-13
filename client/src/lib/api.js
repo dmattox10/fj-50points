@@ -68,7 +68,7 @@ const api = {
     logout: values => {
         return axios.delete(`${testUrl}/logout`, values)
     },
-    getProtected: fullRoute => { // TODO change to baseUrl in prod
+    getProtected: (fullRoute='/ping') => { // TODO change to baseUrl in prod
         return axios.get(`${devUrl}/${fullRoute}`)
     },
     postProtected: (route, values) => { // TODO change to baseUrl in prod

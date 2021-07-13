@@ -36,12 +36,17 @@ export const useDexie = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [authToken, setAuthToken] = useStorageItem('auth', 'null')
     const [refreshToken, setRefreshToken] = useStorageItem('refresh', 'null')
-    const [isLoggedIn, setIsLoggedIn] = useState(checkToken())
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     const history = useHistory()
 
-    const checkToken = () => {
-
+    const checkToken = async () => {
+        const res = await api.getProtected()
+        if (res.status === 200) {
+            setIsLoggedIn(true)
+        } else {
+            setIsLoggedIn(false)
+        }
     }
 
     // const allPlayers = useLiveQuery(() => db.players.toArray(), [])
@@ -55,6 +60,10 @@ export const useDexie = () => {
 
         if (group && group.online) { // should this be setTimeout, useInterval?
             // TODO sync here, heartbeat?
+        }
+
+        if(!isLoggedIn) {
+            checkToken()    
         }
 
     }, [players, group])

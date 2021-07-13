@@ -17,7 +17,7 @@ const Setup = props => {
         players, 
         group, 
         removePlayer, 
-        settings, 
+        editGroup, 
         addPlayer, 
         isLoggedIn 
     } = props
@@ -77,6 +77,14 @@ const Setup = props => {
             
         }
     })
+
+    const LoginButton = (
+        <div className='spacer'>
+            <Row>
+                <Button style={{width: '100%'}} className='btn-dark' onClick={() => toggle()}>Sign in to play online!</Button>
+            </Row>
+        </div>
+    )
 
     const firstSetup = (
         <Card color='secondary'>
@@ -153,14 +161,6 @@ const Setup = props => {
             </CardBody>
             <TabbedView toggle={toggle} modal={modal} formError={formError} doLogin={doLogin} doRegister={doRegister} />
         </Card>
-    )
-
-    const LoginButton = (
-        <div className='spacer'>
-            <Row>
-                <Button style={{width: '100%'}} className='btn-dark' onClick={() => toggle()}>Sign in to play online!</Button>
-            </Row>
-        </div>
     )
 
     return (
