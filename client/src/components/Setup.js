@@ -165,7 +165,7 @@ const Setup = props => {
 
     return (
         <div>
-            {configured === true ? <Settings formError={formError} doLogin={doLogin} doRegister={doRegister} isLoading={isLoading} players={players} group={group} isLoggedIn={isLoggedIn} /> : firstSetup }
+            {configured === true ? <Settings formError={formError} doLogin={doLogin} doRegister={doRegister} isLoading={isLoading} players={players} group={group} addPlayer={addPlayer} removePlayer={removePlayer} editGroup={editGroup} isLoggedIn={isLoggedIn} /> : firstSetup }
         </div>
     )
 }

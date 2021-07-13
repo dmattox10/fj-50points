@@ -8,7 +8,7 @@ import TabbedView from './TabbedView'
 
 const Settings = props => {
 
-    const { formError, doLogin, doRegister, isLoading, players, group, addPlayer, removePlayer, isLoggedIn } = props
+    const { formError, doLogin, doRegister, isLoading, players, group, addPlayer, removePlayer, editGroup, isLoggedIn } = props
     const [modal, setModal] = useState(false)
 
     const toggle = () => {
