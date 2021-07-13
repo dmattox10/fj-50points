@@ -2,11 +2,11 @@ import Dexie from 'dexie'
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { nanoid } from 'nanoid'
-import { useStorageItem } from '@capacitor-community/react-hooks'
+import { useStorageItem } from './useStorage'
 
-import { useApi } from './useApi'
+// import { useApi } from './useApi'
 
-// import api from '../lib/api'
+import api from '../lib/api'
 
 const db = new Dexie('fj')
 db.version(1).stores({
