@@ -3,22 +3,26 @@ const connectDB = require("./config/db")
 const cors = require('cors')
 const helmet = require('helmet')
 const morgan = require('morgan')
+const bodyParser = require('body-parser')
 
 const { APP_PORT, APP_NAME } = require("./env")
+
+let jsonParser = bodyParser.json()
+let urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 const statsRouter = require('./routes/statsRouter')
 
 const middlewares = require('./middlewares')
 const gameRouter = require("./routes/gameRouter")
 
-const app = express()
 connectDB()
 
 app.use(cors())
 app.use(helmet())
 app.use(morgan('dev'))
+app.use(jsonParser)
 
-app.use('/v1/play', middlewares.checkAuth, gameRouter)
+app.use('/v1/play', middlewares.checkAuth, urlencodedParser, gameRouter)
 app.use('/stats', statsRouter)
 
 app.get('/', (req, res) => {
