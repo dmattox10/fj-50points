@@ -31,7 +31,7 @@ axios.interceptors.response.use(
         let refreshToken = localStorage.getItem('refreshToken')
         if (refreshToken && error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true
-            return axios.post(`${testUrl}/refreshToken`, { refreshToken })
+            return axios.post(`${authUrl}/refreshToken`, { refreshToken })
                 .then(res => {
                     if (res.status === 200) {
                         localStorage.setItem('accessToken', res.data.accessToken)
@@ -57,22 +57,22 @@ const api = {
                 gameId,
             }
         }
-        return axios.post(`${testUrl}/register`, body)
+        return axios.post(`${authUrl}/register`, {body: body})
     },
     login: values => {
-        return axios.post(`${testUrl}/login`, values)
+        return axios.post(`${authUrl}/login`, { body: values })
     },
     refreshToken: values => {
-        return axios.post(`${testUrl}/refresh`, values)
+        return axios.post(`${authUrl}/refresh`, { body: values })
     },
     logout: values => {
-        return axios.delete(`${testUrl}/logout`, values)
+        return axios.delete(`${authUrl}/logout`, { body: values })
     },
     getProtected: (fullRoute='/ping') => { // TODO change to baseUrl in prod
         return axios.get(`${devUrl}/${fullRoute}`)
     },
     postProtected: (route, values) => { // TODO change to baseUrl in prod
-        return axios.post(`${devUrl}/${route}`, values)
+        return axios.post(`${devUrl}/${route}`, { body: values })
     }
 }
 
