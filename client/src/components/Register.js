@@ -75,8 +75,7 @@ const Register = props => {
         }),
         onSubmit: values => {
             // do something!
-            doRegister(values)
-            toggle()
+            doRegister(values, toggle)
         }
     })
 

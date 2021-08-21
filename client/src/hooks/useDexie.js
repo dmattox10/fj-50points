@@ -87,19 +87,27 @@ export const useDexie = () => {
     }
 
 
-    const doLogin = async values => {
+    const doLogin = async (values, cb) => {
         setIsLoading(prevIsLoading => !prevIsLoading)
         let res
         try {
             res = await api.login(values)
-            setFormError(null)
-            const special = res.data
-            // localStorage.setItem('accessToken', accessToken)
-            setAuthToken(res.data.accessToken)
-            setRefreshToken(res.data.refreshToken)
-            // localStorage.setItem('refreshToken', refreshToken)
-            // TODO Switch API's here!
-            setIsLoggedIn(true)
+            switch (res.status) {
+                case 200: //success
+                    setFormError(null)
+                    const special = res.data
+                    // localStorage.setItem('accessToken', accessToken)
+                    setAuthToken(res.data.accessToken)
+                    setRefreshToken(res.data.refreshToken)
+                    // localStorage.setItem('refreshToken', refreshToken)
+                    // TODO Switch API's here!
+                    setIsLoggedIn(true)
+                    cb()
+                break;
+                default: // uh oh
+                    setFormError('Something went wrong.')
+                    setIsLoading(prevIsLoading => !prevIsLoading)
+            }
         } catch (error) {
             console.error(error)
             setFormError(error)
@@ -111,19 +119,32 @@ export const useDexie = () => {
         setIsLoading(prevIsLoading => !prevIsLoading)
     }
 
-    const doRegister = async values => {
+    const doRegister = async (values, cb) => {
         setIsLoading(prevIsLoading => !prevIsLoading)
         let res
         try {
             res = await api.register(values)
-            setFormError(null)
-            // let { accessToken, refreshToken } = res.data
-            // localStorage.setItem('accessToken', accessToken)
-            // localStorage.setItem('refreshToken', refreshToken)
-            setAuthToken(res.data.accessToken)
-            setRefreshToken(res.data.refreshToken)
-            setIsLoggedIn(true)
-            // TODO Switch API's here!
+            switch (res.status) {
+                case 201: //success
+                setFormError(null)
+                // let { accessToken, refreshToken } = res.data
+                // localStorage.setItem('accessToken', accessToken)
+                // localStorage.setItem('refreshToken', refreshToken)
+                setAuthToken(res.data.accessToken)
+                setRefreshToken(res.data.refreshToken)
+                setIsLoggedIn(true)
+                cb()
+                // TODO Switch API's here!
+                break;
+                case 400: //user exists
+                    setFormError('Error, user exists!')
+                    setIsLoading(prevIsLoading => !prevIsLoading)
+                break;
+                default:
+                    setFormError('Something went wrong.')
+                    setIsLoading(prevIsLoading => !prevIsLoading)
+
+            }
         } catch (error) {
             console.error(error)
             setFormError(error)

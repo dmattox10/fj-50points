@@ -24,8 +24,7 @@ const Login = props => {
             .required('Please enter a password'),
         }),
         onSubmit: values => {
-            doLogin(values)
-            toggle()
+            doLogin(values, toggle)
         }
     })
     return (

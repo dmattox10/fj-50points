@@ -57,22 +57,22 @@ const api = {
                 gameId,
             }
         }
-        return axios.post(`${authUrl}/register`, {body: body})
+        return axios.post(`${authUrl}/register`, body)
     },
     login: values => {
-        return axios.post(`${authUrl}/login`, { body: values })
+        return axios.post(`${authUrl}/login`, values)
     },
     refreshToken: values => {
-        return axios.post(`${authUrl}/refresh`, { body: values })
+        return axios.post(`${authUrl}/refresh`, values)
     },
     logout: values => {
-        return axios.delete(`${authUrl}/logout`, { body: values })
+        return axios.delete(`${authUrl}/logout`, values)
     },
     getProtected: (fullRoute='/ping') => { // TODO change to baseUrl in prod
         return axios.get(`${devUrl}/${fullRoute}`)
     },
     postProtected: (route, values) => { // TODO change to baseUrl in prod
-        return axios.post(`${devUrl}/${route}`, { body: values })
+        return axios.post(`${devUrl}/${route}`, values)
     }
 }
 
