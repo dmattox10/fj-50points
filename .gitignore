@@ -102,3 +102,12 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Project specific directories and files
+testing/
+
+docker-compose.yml
+*.env
+mybb/
+mariadb/
+postgres/
